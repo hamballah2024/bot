@@ -34,6 +34,7 @@ def vision_command(update, context):
 
 # Fungsi untuk menangani perintah /getmpdcubmu
 def getmpdcubmu_command(update, context):
+    print(f"Received arguments: {context.args}")  # Logging untuk melihat argumen
     if len(context.args) > 1:
         option = context.args[0]
         value = context.args[1]
