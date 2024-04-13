@@ -35,6 +35,7 @@ def vision_command(update, context):
 
 # Fungsi untuk menangani perintah /getmpdcubmu
 def getmpdcubmu_command(update, context):
+    print(f"Received arguments: {context.args}")  # Logging untuk melihat argumen
     if len(context.args) > 1:
         option = context.args[0]
         value = " ".join(context.args[1:])  # Mengambil semua argumen setelah opsi
@@ -51,13 +52,14 @@ def getmpdcubmu_command(update, context):
 
 # Fungsi untuk menangani perintah /getvodcubmu
 def getvodcubmu_command(update, context):
+    print(f"Received arguments: {context.args}")  # Logging untuk melihat argumen
     if len(context.args) > 0:
-        id = context.args[0]
+        value = context.args[0]  
         
         # Menunjukkan bahwa bot sedang memproses permintaan
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
-        
-        processed_result = process_get_vod_cubmu(id)
+
+        processed_result = process_get_vod(value)
         context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
 
     else:
@@ -95,17 +97,17 @@ def process_get_mpd(option, value):
     else:
         return "Data tidak ditemukan atau format respons salah."
 
-# Fungsi untuk memproses VOD Cubmu
-def process_get_vod_cubmu(id):
-    processed_url = requests.get(f"https://cendolcen.my.id/tools/script/pssh-maxstream-bot/cubmu-vod/final.php?id={id}")
-    data = processed_url.json()  # Mengubah respons ke format JSON
+# Fungsi untuk memproses VOD cubmu
+def process_get_vod(value):
+    processed_url = requests.get(f"https://cendolcen.my.id/tools/script/pssh-maxstream-bot/cubmu-vod/final.php?id={value}")
     
+    data = processed_url.json()  # Mengubah respons ke format JSON
     if 'Nama' in data:
         formatted_result = (
             f"Nama : {data['Nama']}\n"
             f"Genre : {data['Genre']}\n"
             f"Duration : {data['Duration']}\n"
-            f"Poster URL : {data['Poster URL']}\n"
+            f"Poster URL : {data.get('Poster URL', 'Tidak ada')}\n"
             f"Stream URL : {data['Stream URL']}"
         )
         return formatted_result
@@ -113,7 +115,7 @@ def process_get_vod_cubmu(id):
         return "Data tidak ditemukan atau format respons salah."
 
 def main():
-    token = '7129313428:AAFP1ELIdIqJ37Sx94eDGHb35Vn5on26kW4'
+    token = '7129313428:AAFP1ELIdIqJ37Sx94eDGHb35Vn5on26kW4'  # Ganti dengan token bot Anda
 
     updater = Updater(token, use_context=True)
     dispatcher = updater.dispatcher
