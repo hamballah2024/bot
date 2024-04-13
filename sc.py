@@ -39,12 +39,12 @@ def getmpdcubmu_command(update, context):
     if len(context.args) > 1:
         option = context.args[0]
         value = " ".join(context.args[1:])  # Mengambil semua argumen setelah opsi
-        value_encoded = quote(value)  # Menggantikan spasi dengan %20
+        value_replaced = value.replace(" ", "%20")  # Menggantikan spasi dengan %20
         
         # Menunjukkan bahwa bot sedang memproses permintaan
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
 
-        processed_result = process_get_mpd(option, value_encoded)
+        processed_result = process_get_mpd(option, value_replaced)
         context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
 
     else:
