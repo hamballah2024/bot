@@ -26,8 +26,8 @@ def vision_command(update, context):
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
         
         processed_result = process_vision_url(url)
-        reply_message = f"*MPD Vision :* {url}\n\n*PSSH Vision :* `{processed_result}`"
-        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
+        reply_message = f"MPD Vision : {url}\n\nPSSH Vision : `{processed_result}`"
+        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, reply_to_message_id=update.message.message_id)
 
     else:
         context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /vision.", reply_to_message_id=update.message.message_id)
