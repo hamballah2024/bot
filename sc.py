@@ -12,7 +12,7 @@ def maxstream_command(update, context):
         
         processed_result = process_maxstream_url(url)
         reply_message = f"*MPD Maxstream :* {url}\n\n*PSSH Maxstream :* `{processed_result}`"
-        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
 
     else:
         context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /maxstream.", reply_to_message_id=update.message.message_id)
@@ -27,7 +27,7 @@ def vision_command(update, context):
         
         processed_result = process_vision_url(url)
         reply_message = f"MPD Vision : {url}\n\nPSSH Vision : `{processed_result}`"
-        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
 
     else:
         context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /vision.", reply_to_message_id=update.message.message_id)
