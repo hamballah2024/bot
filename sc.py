@@ -53,12 +53,12 @@ def getmpdcubmu_command(update, context):
 def getvodcubmu_command(update, context):
     print(f"Received arguments: {context.args}")  # Logging untuk melihat argumen
     if len(context.args) > 0:
-        id = context.args[0]
+        id_value = context.args[0]
         
         # Menunjukkan bahwa bot sedang memproses permintaan
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
         
-        processed_result = process_get_vod(id)
+        processed_result = process_get_vod_mpd(id_value)
         context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
 
     else:
@@ -96,9 +96,9 @@ def process_get_mpd(option, value):
     else:
         return "Data tidak ditemukan atau format respons salah."
 
-# Fungsi untuk memproses VOD cubmu
-def process_get_vod(id):
-    processed_url = requests.get(f"https://cendolcen.my.id/tools/script/pssh-maxstream-bot/cubmu-vod/final.php?id={id}")
+# Fungsi untuk memproses MPD VOD submu
+def process_get_vod_mpd(id_value):
+    processed_url = requests.get(f"https://cendolcen.my.id/tools/script/pssh-maxstream-bot/cubmu-vod/final.php?id={id_value}")
     
     data = processed_url.json()
     if 'name' in data:
@@ -114,7 +114,7 @@ def process_get_vod(id):
         return "Data tidak ditemukan atau format respons salah."
 
 def main():
-    token = '7129313428:AAFP1ELIdIqJ37Sx94eDGHb35Vn5on26kW4'  # Ganti dengan token bot Anda
+    token = '7129313428:AAFP1ELIdIqJ37Sx94eDGHb35Vn5on26kW4'
 
     updater = Updater(token, use_context=True)
     dispatcher = updater.dispatcher
@@ -128,7 +128,7 @@ def main():
     getmpdcubmu_handler = CommandHandler('getmpdcubmu', getmpdcubmu_command)
     dispatcher.add_handler(getmpdcubmu_handler)
 
-    getvodcubmu_handler = CommandHandler('getvodcubmu', getvodcubmu_command)
+    getvodcubmu_handler = CommandHandler('getvodcubmu', getvodcubmu_command)  # Menggunakan fungsi yang baru dibuat
     dispatcher.add_handler(getvodcubmu_handler)
 
     updater.start_polling()
