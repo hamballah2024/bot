@@ -6,9 +6,10 @@ import requests
 def maxstream_command(update, context):
     if len(context.args) > 0:
         url = context.args[0]
+        reply_to_message_id = update.message.message_id
         
         # Menunjukkan bahwa bot sedang memproses permintaan
-        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text=f"Memproses perintah: {update.message.text}")
+        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text=f"Memproses perintah: {update.message.text}", reply_to_message_id=reply_to_message_id)
         
         processed_result = process_maxstream_url(url)
         reply_message = f"*MPD Maxstream :* {url}\n\n*PSSH Maxstream :* `{processed_result}`"
@@ -24,9 +25,10 @@ def maxstream_command(update, context):
 def vision_command(update, context):
     if len(context.args) > 0:
         url = context.args[0]
+        reply_to_message_id = update.message.message_id
         
         # Menunjukkan bahwa bot sedang memproses permintaan
-        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text=f"Memproses perintah: {update.message.text}")
+        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text=f"Memproses perintah: {update.message.text}", reply_to_message_id=reply_to_message_id)
         
         processed_result = process_vision_url(url)
         reply_message = f"*MPD Vision :* {url}\n\n*PSSH Vision :* `{processed_result}`"
@@ -43,9 +45,10 @@ def getmpdcubmu_command(update, context):
     if len(context.args) > 1:
         option = context.args[0]
         value = context.args[1]
+        reply_to_message_id = update.message.message_id
         
         # Menunjukkan bahwa bot sedang memproses permintaan
-        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text=f"Memproses perintah: {update.message.text}")
+        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text=f"Memproses perintah: {update.message.text}", reply_to_message_id=reply_to_message_id)
         
         processed_result = process_get_mpd(option, value)
         context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN)
