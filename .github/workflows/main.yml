@@ -1,16 +1,26 @@
-name: Run Script 24/7
+name: Run Python Script
 
 on:
   schedule:
-    - cron: '0 */1 * * *' # Menjalankan setiap jam
+    - cron: '0 */6 * * *'  # Menjadwalkan untuk menjalankan setiap 6 jam, sesuaikan sesuai kebutuhan
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'  # Ganti x dengan versi Python yang Anda gunakan
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Jika ada file requirements.txt
+
     - name: Run script
       run: python sc.py
