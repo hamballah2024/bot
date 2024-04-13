@@ -1,6 +1,7 @@
 from telegram import ParseMode
 from telegram.ext import Updater, CommandHandler
 import requests
+from urllib.parse import quote
 
 # Fungsi untuk menangani perintah /maxstream
 def maxstream_command(update, context):
@@ -37,7 +38,7 @@ def getmpdcubmu_command(update, context):
     print(f"Received arguments: {context.args}")  # Logging untuk melihat argumen
     if len(context.args) > 1:
         option = context.args[0]
-        value = context.args[1]
+        value = quote(context.args[1])  # Menggantikan spasi dengan %20
         
         # Menunjukkan bahwa bot sedang memproses permintaan
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
