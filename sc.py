@@ -35,7 +35,6 @@ def vision_command(update, context):
 
 # Fungsi untuk menangani perintah /getmpdcubmu
 def getmpdcubmu_command(update, context):
-    print(f"Received arguments: {context.args}")  # Logging untuk melihat argumen
     if len(context.args) > 1:
         option = context.args[0]
         value = " ".join(context.args[1:])  # Mengambil semua argumen setelah opsi
@@ -49,6 +48,20 @@ def getmpdcubmu_command(update, context):
 
     else:
         context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan opsi (name atau id) dan nilai setelah perintah /getmpdcubmu.", reply_to_message_id=update.message.message_id)
+
+# Fungsi untuk menangani perintah /getvodcubmu
+def getvodcubmu_command(update, context):
+    if len(context.args) > 0:
+        id_value = context.args[0]
+        
+        # Menunjukkan bahwa bot sedang memproses permintaan
+        context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
+        
+        processed_result = process_get_vod(id_value)
+        context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
+
+    else:
+        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan ID setelah perintah /getvodcubmu.", reply_to_message_id=update.message.message_id)
 
 # Fungsi untuk memproses URL Maxstream
 def process_maxstream_url(url):
@@ -82,6 +95,11 @@ def process_get_mpd(option, value):
     else:
         return "Data tidak ditemukan atau format respons salah."
 
+# Fungsi untuk memproses VOD Cubmu
+def process_get_vod(id_value):
+    processed_url = requests.get(f"https://cendolcen.my.id/tools/script/pssh-maxstream-bot/cubmu-vod/final.php?id={id_value}")
+    return processed_url.text
+
 def main():
     token = '7129313428:AAFP1ELIdIqJ37Sx94eDGHb35Vn5on26kW4'
 
@@ -96,6 +114,9 @@ def main():
 
     getmpdcubmu_handler = CommandHandler('getmpdcubmu', getmpdcubmu_command)
     dispatcher.add_handler(getmpdcubmu_handler)
+
+    getvodcubmu_handler = CommandHandler('getvodcubmu', getvodcubmu_command)
+    dispatcher.add_handler(getvodcubmu_handler)
 
     updater.start_polling()
     updater.idle()
