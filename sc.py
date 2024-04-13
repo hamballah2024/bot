@@ -8,7 +8,7 @@ def maxstream_command(update, context):
         url = context.args[0]
         
         # Menunjukkan bahwa bot sedang memproses permintaan
-        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...")
+        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text=f"Memproses perintah: {update.message.text}")
         
         processed_result = process_maxstream_url(url)
         reply_message = f"*MPD Maxstream :* {url}\n\n*PSSH Maxstream :* `{processed_result}`"
@@ -26,7 +26,7 @@ def vision_command(update, context):
         url = context.args[0]
         
         # Menunjukkan bahwa bot sedang memproses permintaan
-        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...")
+        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text=f"Memproses perintah: {update.message.text}")
         
         processed_result = process_vision_url(url)
         reply_message = f"*MPD Vision :* {url}\n\n*PSSH Vision :* `{processed_result}`"
@@ -45,7 +45,7 @@ def getmpdcubmu_command(update, context):
         value = context.args[1]
         
         # Menunjukkan bahwa bot sedang memproses permintaan
-        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...")
+        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text=f"Memproses perintah: {update.message.text}")
         
         processed_result = process_get_mpd(option, value)
         context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN)
