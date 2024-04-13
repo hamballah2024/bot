@@ -14,7 +14,7 @@ def maxstream_command(update, context):
         reply_message = f"*MPD Maxstream :* {url}\n\n*PSSH Maxstream :* `{processed_result}`"
         context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
     else:
-        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /maxstream.")
+        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /maxstream.", reply_to_message_id=update.message.message_id)
 
 # Fungsi untuk menangani perintah /vision
 def vision_command(update, context):
@@ -28,7 +28,7 @@ def vision_command(update, context):
         reply_message = f"*MPD Vision :* {url}\n\n*PSSH Vision :* `{processed_result}`"
         context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
     else:
-        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /vision.")
+        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /vision.", reply_to_message_id=update.message.message_id)
 
 # Fungsi untuk menangani perintah /getmpdcubmu
 def getmpdcubmu_command(update, context):
