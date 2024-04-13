@@ -44,7 +44,7 @@ def getmpdcubmu_command(update, context):
         # Menunjukkan bahwa bot sedang memproses permintaan
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
 
-        processed_result = process_get_mpd(option, value_replaced)
+        processed_result = process_get_mpd(option, value_encoded)
         context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
 
     else:
