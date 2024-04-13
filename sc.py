@@ -1,13 +1,13 @@
 from telegram import ParseMode
 from telegram.ext import Updater, CommandHandler
 import requests
-from urllib.parse import quote
 
 # Fungsi untuk menangani perintah /maxstream
 def maxstream_command(update, context):
     if len(context.args) > 0:
         url = context.args[0]
         
+        # Menunjukkan bahwa bot sedang memproses permintaan
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
         
         processed_result = process_maxstream_url(url)
@@ -22,6 +22,7 @@ def vision_command(update, context):
     if len(context.args) > 0:
         url = context.args[0]
         
+        # Menunjukkan bahwa bot sedang memproses permintaan
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
         
         processed_result = process_vision_url(url)
@@ -33,11 +34,13 @@ def vision_command(update, context):
 
 # Fungsi untuk menangani perintah /getmpdcubmu
 def getmpdcubmu_command(update, context):
+    print(f"Received arguments: {context.args}")  # Logging untuk melihat argumen
     if len(context.args) > 1:
         option = context.args[0]
-        value = " ".join(context.args[1:])
-        value_encoded = quote(value)
+        value = " ".join(context.args[1:])  # Mengambil semua argumen setelah opsi
+        value_encoded = quote(value)  # Menggantikan spasi dengan %20
         
+        # Menunjukkan bahwa bot sedang memproses permintaan
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
 
         processed_result = process_get_mpd(option, value_encoded)
@@ -48,22 +51,18 @@ def getmpdcubmu_command(update, context):
 
 # Fungsi untuk menangani perintah /getvodcubmu
 def getvodcubmu_command(update, context):
+    print(f"Received arguments: {context.args}")  # Logging untuk melihat argumen
     if len(context.args) > 0:
-        vod_id = context.args[0]
+        id = context.args[0]
         
+        # Menunjukkan bahwa bot sedang memproses permintaan
         context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
         
-        processed_result = process_get_vod(vod_id)
-        reply_message = f"*Nama:* {processed_result['name']}\n" \
-                        f"*Genre:* {processed_result['genre']}\n" \
-                        f"*Durasi:* {processed_result['duration']}\n" \
-                        f"*Poster URL:* [{processed_result['name']}]({processed_result['posterUrl']})\n" \
-                        f"*Stream URL:* [{vod_id}]({processed_result['streamUrl']})"
-        
-        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
+        processed_result = process_get_vod(id)
+        context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
 
     else:
-        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan ID VOD setelah perintah /getvodcubmu.", reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan ID setelah perintah /getvodcubmu.", reply_to_message_id=update.message.message_id)
 
 # Fungsi untuk memproses URL Maxstream
 def process_maxstream_url(url):
@@ -84,7 +83,7 @@ def process_get_mpd(option, value):
     else:
         return "Opsi tidak valid."
     
-    data = processed_url.json()
+    data = processed_url.json()  # Mengubah respons ke format JSON
     if 'ID' in data:
         formatted_result = (
             f"ID: {data['ID']}\n"
@@ -97,25 +96,25 @@ def process_get_mpd(option, value):
     else:
         return "Data tidak ditemukan atau format respons salah."
 
-# Fungsi untuk memproses URL VOD CubMu
-def process_get_vod(vod_id):
-    url = f"https://cendolcen.my.id/tools/script/pssh-maxstream-bot/cubmu-vod/final.php?id={vod_id}"
-    processed_url = requests.get(url)
+# Fungsi untuk memproses VOD cubmu
+def process_get_vod(id):
+    processed_url = requests.get(f"https://cendolcen.my.id/tools/script/pssh-maxstream-bot/cubmu-vod/final.php?id={id}")
+    
     data = processed_url.json()
-
     if 'name' in data:
-        return {
-            "name": data['name'],
-            "genre": data['genre'],
-            "duration": data['duration'],
-            "posterUrl": data['posterUrl'],
-            "streamUrl": data['streamUrl']
-        }
+        formatted_result = (
+            f"Nama : {data['name']}\n"
+            f"Gendre : {data['genre']}\n"
+            f"Durasi : {data['duration']}\n"
+            f"Poster : {data['posterUrl']}\n"
+            f"Stream URL : {data['streamUrl']}"
+        )
+        return formatted_result
     else:
         return "Data tidak ditemukan atau format respons salah."
 
 def main():
-    token = '7129313428:AAFP1ELIdIqJ37Sx94eDGHb35Vn5on26kW4'  # Gantikan dengan token bot Anda
+    token = '7129313428:AAFP1ELIdIqJ37Sx94eDGHb35Vn5on26kW4'  # Ganti dengan token bot Anda
 
     updater = Updater(token, use_context=True)
     dispatcher = updater.dispatcher
