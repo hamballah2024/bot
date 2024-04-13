@@ -6,13 +6,9 @@ import requests
 def maxstream_command(update, context):
     if len(context.args) > 0:
         url = context.args[0]
-
-        # Menunjukkan bahwa bot sedang memproses permintaan
-        context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
-        
         processed_result = process_maxstream_url(url)
         reply_message = f"*MPD Maxstream :* {url}\n\n*PSSH Maxstream :* `{processed_result}`"
-        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN)
     else:
         context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /maxstream.")
 
@@ -20,13 +16,9 @@ def maxstream_command(update, context):
 def vision_command(update, context):
     if len(context.args) > 0:
         url = context.args[0]
-
-        # Menunjukkan bahwa bot sedang memproses permintaan
-        context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
-        
         processed_result = process_vision_url(url)
         reply_message = f"*MPD Vision :* {url}\n\n*PSSH Vision :* `{processed_result}`"
-        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN)
     else:
         context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /vision.")
 
@@ -35,14 +27,10 @@ def getmpdcubmu_command(update, context):
     if len(context.args) > 1:
         option = context.args[0]
         value = context.args[1]
-        
-        # Menunjukkan bahwa bot sedang memproses permintaan
-        context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
-
         processed_result = process_get_mpd(option, value)
-        context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN)
     else:
-        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan opsi (name atau id) dan nilai setelah perintah /getmpdcubmu.", reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan opsi (name atau id) dan nilai setelah perintah /getmpdcubmu.")
 
 # Fungsi untuk memproses URL Maxstream
 def process_maxstream_url(url):
