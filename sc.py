@@ -8,17 +8,17 @@ def maxstream_command(update, context):
         url = context.args[0]
         
         # Menunjukkan bahwa bot sedang memproses permintaan
-        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
+        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...")
         
         processed_result = process_maxstream_url(url)
         reply_message = f"*MPD Maxstream :* {url}\n\n*PSSH Maxstream :* `{processed_result}`"
-        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=processing_message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN)
         
         # Menghapus pesan "Sedang memproses..." setelah hasil dikirim
         context.job_queue.run_once(delete_message, 0, context=[update.message.chat_id, processing_message.message_id])
 
     else:
-        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /maxstream.", reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /maxstream.")
 
 # Fungsi untuk menangani perintah /vision
 def vision_command(update, context):
@@ -26,17 +26,17 @@ def vision_command(update, context):
         url = context.args[0]
         
         # Menunjukkan bahwa bot sedang memproses permintaan
-        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
+        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...")
         
         processed_result = process_vision_url(url)
         reply_message = f"*MPD Vision :* {url}\n\n*PSSH Vision :* `{processed_result}`"
-        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=processing_message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, parse_mode=ParseMode.MARKDOWN)
         
         # Menghapus pesan "Sedang memproses..." setelah hasil dikirim
         context.job_queue.run_once(delete_message, 0, context=[update.message.chat_id, processing_message.message_id])
 
     else:
-        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /vision.", reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan URL setelah perintah /vision.")
 
 # Fungsi untuk menangani perintah /getmpdcubmu
 def getmpdcubmu_command(update, context):
@@ -45,23 +45,21 @@ def getmpdcubmu_command(update, context):
         value = context.args[1]
         
         # Menunjukkan bahwa bot sedang memproses permintaan
-        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...", reply_to_message_id=update.message.message_id)
+        processing_message = context.bot.send_message(chat_id=update.message.chat_id, text="Sedang memproses...")
         
         processed_result = process_get_mpd(option, value)
-        
-        # Mengirim hasil
-        context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN, reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text=processed_result, parse_mode=ParseMode.MARKDOWN)
         
         # Menghapus pesan "Sedang memproses..." setelah hasil dikirim
         context.job_queue.run_once(delete_message, 0, context=[update.message.chat_id, processing_message.message_id])
 
     else:
-        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan opsi (name atau id) dan nilai setelah perintah /getmpdcubmu.", reply_to_message_id=update.message.message_id)
+        context.bot.send_message(chat_id=update.message.chat_id, text="Silakan masukkan opsi (name atau id) dan nilai setelah perintah /getmpdcubmu.")
 
 # Fungsi untuk menghapus pesan "Sedang memproses..."
 def delete_message(context):
-    chat_id, processing_message_id = context.job.context
-    context.bot.delete_message(chat_id=chat_id, message_id=processing_message_id)
+    chat_id, message_id = context.job.context
+    context.bot.delete_message(chat_id=chat_id, message_id=message_id)
 
 # Fungsi untuk memproses URL Maxstream
 def process_maxstream_url(url):
