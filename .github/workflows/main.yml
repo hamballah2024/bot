@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'  # Ganti x dengan versi Python yang Anda gunakan
+        python-version: '3.11.0'  # Ganti x dengan versi Python yang Anda gunakan
 
     - name: Install dependencies
       run: |
